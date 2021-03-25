@@ -1,0 +1,17 @@
+.DS_Store
+.cache/
+node_modules/
+dist/
+npm-debug.log
+yarn-error.log
+.env
+serviceAccountKey.json
+.parcel-cache
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+firebase.config.js
+.firebase
+.env.js

@@ -1,0 +1,248 @@
+@import 'normalize.css';
+
+:root {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 16px;
+    color: #1b140d;
+}
+
+::-moz-selection {
+    background: #1b140d;
+    color: #fff;
+    text-shadow: none;
+}
+
+::selection {
+    background: #1b140d;
+    color: #fff;
+    text-shadow: none;
+}
+
+body {
+    background: #302015 url('assets/background.png') repeat;
+    margin: 0;
+}
+
+#app {
+    font-family: Lato, Helvetica, Arial, sans-serif;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 30% 70%;
+    -ms-grid-columns: 30% 70%;
+    min-height: 100vh;
+}
+
+header {
+    background: #181818;
+    padding: 1.5rem 0 0;
+    margin: 1.5rem;
+    border: 1px solid #1b140d;
+    box-shadow: .75rem .75rem 0 0 #1b140d;
+    align-self: start;
+    grid-column: 1;
+    grid-row: 1;
+    -ms-grid-column: 1;
+    -ms-grid-row: 1;
+    z-index: 2;
+    text-align: center;
+
+    a[class^='router-link'] {
+        color: #a26737;
+        font-weight: 400;
+    }
+
+    a[class^='router-link']:hover {
+        color: #a26737;
+        text-decoration: none;
+    }
+}
+
+header,
+footer {
+    position: sticky;
+}
+
+.logo {
+    margin: 0 auto;
+    width: 50%;
+    min-height: 7rem;
+    max-height: 10rem;
+}
+
+#loading {
+    margin: 1.5rem 2.5rem 0;
+    grid-row: 1;
+}
+
+h1 {
+    font: 1.5rem 'Allerta Stencil';
+    color: #a26737;
+    margin: 0;
+    cursor: default;
+}
+
+a {
+    color: #1b140d;
+    text-decoration: none;
+    font-weight: 600;
+
+    &:hover {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+}
+
+li {
+    padding: .1rem 0;
+}
+
+img {
+    max-width: 100%;
+}
+
+.preload-image {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+footer {
+    margin: 1.5rem 0 0;
+    background: #a26737 url('assets/boxtexture.png') repeat;
+    align-self: start;
+    text-align: center;
+    padding: 1rem;
+    border: 1px solid #1b140d;
+    z-index: 1;
+
+    a {
+        color: #1b140d;
+        text-transform: uppercase;
+    }
+
+    ul {
+        padding: 0;
+
+        li {
+            display: inline-block;
+
+            &:last-child {
+                padding-left: 1.5rem;
+            }
+        }
+    }
+}
+
+.main {
+    -ms-grid-column: 2;
+}
+
+.units-switcher {
+    background: #181818;
+    font-size: .8rem;
+    position: relative;
+    margin: .5rem;
+    padding: 0 1rem;
+    text-transform: uppercase;
+
+    &, a {
+        color: #a26737;
+        font-weight: 400;
+    }
+
+    a.active {
+        text-decoration: underline;
+    }
+
+    ul {
+        li:first-child {
+            padding-right: 1.5rem;
+        }
+
+        li:last-child {
+            padding-left: 1.5rem;
+        }
+    }
+}
+
+@media screen and (max-width: 64rem) {
+    html, body {
+        overflow-x: hidden;
+    }
+
+    #app {
+        grid-template-columns: 35% 65%;
+        -ms-grid-columns: 35% 65%;
+    }
+
+    .main {
+        transform: translateX(0);
+
+        &.to-left,
+        &.from-left {
+            transform: translateX(-100%);
+        }
+        &.to-right,
+        &.from-right {
+            transform: translateX(100%);
+        }
+    }
+}
+
+@media screen and (min-width: 48rem) {
+    header {
+        top: 1.5rem;
+    }
+
+    .logotype {
+        max-width: 15rem;
+    }
+
+    .slide-fade-enter-active {
+        transition: all .3s ease-in;
+    }
+
+    .slide-fade-leave-active {
+        transition: all .3s ease-out;
+    }
+
+    .slide-fade-enter, .slide-fade-leave-to {
+        transform: translateX(10px);
+        opacity: 0;
+    }
+
+    .slide-fade-leave-to {
+        transform: translate(0);
+    }
+}
+
+@media screen and (max-width: 48rem) {
+    h1 {
+        font-size: 1rem;
+    }
+
+    #app {
+        grid-template-columns: 100%;
+    }
+
+    #loading {
+        margin: 0 auto;
+        grid-row: 2;
+        -ms-grid-row: 2;
+    }
+
+    footer {
+        padding: 1rem 0;
+    }
+}
