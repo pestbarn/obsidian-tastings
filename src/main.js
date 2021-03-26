@@ -7,6 +7,7 @@ Vue.use(VueRouter)
 Vue.use(Helpers)
 
 import Home from './components/Home.vue'
+import Tasting from './components/Tasting.vue'
 import './main.scss'
 
 const routes = [
@@ -17,13 +18,12 @@ const routes = [
     {
         path: '/',
         component: Home
-    }
-    /* ,
+    },
     {
-        path: '/beer/:slug',
-        name: 'beer',
-        component: Beer
-    } */
+        path: '/tasting/:slug',
+        name: 'tasting',
+        component: Tasting
+    }
 ]
 
 const router = new VueRouter({

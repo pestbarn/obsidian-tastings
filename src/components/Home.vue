@@ -1,7 +1,9 @@
 <template>
     <transition-group name="slide-fade" appear tag="div" ref="tastings-list">
         <article class="tastings" v-for="tasting in tastings" :key="tasting.date" style="background: white;">
-            Tasting! {{ formatDate(tasting.date) }} {{ [...tasting.beers] }}
+            <router-link :to="{ name: 'tasting', params: { slug: tasting.date }}" @click.native="toTop">
+                {{ formatDate(tasting.date) }} {{ [...tasting.beers] }}
+            </router-link>
         </article>
     </transition-group>
 </template>
@@ -11,7 +13,6 @@ import firebase from 'firebase/app'
 import 'firebase/database'
 import * as config from '/firebase.config'
 import '../helpers.js'
-const UntappdClient = require('node-untappd')
 
 if (!firebase.apps.length) {
     firebase.initializeApp(config)
@@ -25,8 +26,8 @@ export default {
         }
     },
     mounted() {
-        this.loadTastings()
         this.toTop()
+        this.loadTastings()
     },
     methods: {
         toTop() {
@@ -39,6 +40,7 @@ export default {
 
             db.ref('/').once('value').then(snap => {
                 const array = []
+                console.dir(snap)
 
                 snap.forEach(tasting => {
                     array.push(tasting.val())
@@ -49,30 +51,8 @@ export default {
                 if (!loading.hidden) loading.hidden = true
             })
         },
-        loadRatings() {
-            const env = require('/.env.js')
-            const untappd = new UntappdClient()
-
-            untappd.setClientId(env.UNTAPPD_CLIENTID)
-            untappd.setClientSecret(env.UNTAPPD_CLIENTSECRET)
-
-            const bID = 4233317
-
-            untappd.beerInfo((err, obj) => {
-                const response = obj.response.beer
-                console.dir(response)
-            }, { BID: bID })
-        },
         formatDate(date) {
-            const year = parseInt(String(date).slice(0, 4))
-            const month = parseInt(String(date).slice(4, 6))
-            const day = parseInt(String(date).slice(6, 8))
-
-            return new Date(`${year}-${month}-${day}`).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            })
+            return this.$formatDate(date)
         }
     }
 }
