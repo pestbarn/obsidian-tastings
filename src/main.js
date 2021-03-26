@@ -23,6 +23,11 @@ const routes = [
         path: '/tasting/:slug',
         name: 'tasting',
         component: Tasting
+    },
+    {
+        path: '/tasting/:slug/:id',
+        name: 'tastingUnique',
+        component: Tasting
     }
 ]
 

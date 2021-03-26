@@ -1,8 +1,20 @@
 <template>
     <transition name="slide-fade" appear>
-        <article class="tasting tasting-detailed-view" v-for="tasting in tastings" :key="tasting.date">
-            {{ tasting }}
-        </article>
+        <div class="tasting">
+            <div v-if="!$route.params.id">
+                <main class="tasting-overview" v-for="tasting in tastings" :key="tasting.date">
+                    <router-link :to="{ name: 'tastingUnique', params: { slug: tasting.date, id: '1' }}">
+                        {{ tasting }}
+                    </router-link>
+                </main>
+            </div>
+
+            <div v-else>
+                <article class="tasting-detailed-view" v-if="$route.params.slug">
+                    {{ $route.params }}
+                </article>
+            </div>
+        </div>
     </transition>
 </template>
 
@@ -19,6 +31,14 @@ if (!firebase.apps.length) {
 
 export default {
     name: 'Tasting',
+    beforeRouteLeave(to, from, next) {
+        console.log(to, from, next)
+        // Indicate to the SubComponent that we are leaving the route
+        // this.$refs.mySubComponent.prepareToExit()
+        // Make sure to always call the next function, otherwise the hook will never be resolved
+        // Ref: https://router.vuejs.org/en/advanced/navigation-guards.html
+        // next()
+    },
     data() {
         return {
             tastings: []
@@ -67,3 +87,30 @@ export default {
     }
 }
 </script>
+
+<style scoped lang="scss">
+    .tasting {
+        margin: 1.5rem 2.5rem;
+        border: 1px solid #1b140d;
+        background: #bababa;
+        box-shadow: .75rem .75rem 0 0 #1b140d;
+        position: relative;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: url('../assets/boxtexture.png') repeat;
+            opacity: .5;
+            z-index: 0;
+        }
+
+        > * {
+            position: relative;
+            z-index: 1;
+        }
+    }
+</style>

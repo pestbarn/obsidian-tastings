@@ -40,9 +40,6 @@ export default {
     name: 'App',
     components: {
         ObsidianLogo
-    },
-    data() {
-        return {}
     }
 }
 </script>
