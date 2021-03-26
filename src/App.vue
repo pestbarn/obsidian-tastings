@@ -1,12 +1,12 @@
 <template>
-    <div id="app">
+    <div id="app" :class="{ 'small-header': isNotRoot }">
         <header>
             <ObsidianLogo></ObsidianLogo>
-            <router-link to="/">
+            <router-link to="/" :class="{ 'hidden': isNotRoot }">
                 <img src="assets/logotype.svg" class="logotype">
             </router-link>
 
-            <footer>
+            <footer :class="{ 'hidden': isNotRoot }">
                 <ul>
                     <li>
                         <a href="https://github.com/pestbarn/obsidian">
@@ -40,6 +40,25 @@ export default {
     name: 'App',
     components: {
         ObsidianLogo
+    },
+    data() {
+        return {
+            isNotRoot: false
+        }
+    },
+    watch: {
+        '$route' () {
+            this.checkIfRoot()
+        }
+    },
+    mounted() {
+        this.checkIfRoot()
+    },
+    methods: {
+        checkIfRoot() {
+            if (this.$route.path === '/') this.isNotRoot = false
+            else this.isNotRoot = true
+        }
     }
 }
 </script>

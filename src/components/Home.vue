@@ -2,7 +2,7 @@
     <transition-group name="slide-fade" appear tag="div" ref="tastings-list">
         <article class="tastings" v-for="tasting in tastings" :key="tasting.date" style="background: white;">
             <router-link :to="{ name: 'tasting', params: { slug: tasting.date }}" @click.native="toTop">
-                {{ formatDate(tasting.date) }} {{ [...tasting.beers] }}
+                {{ tasting.title && tasting.title }} {{ formatDate(tasting.date) }}
             </router-link>
         </article>
     </transition-group>

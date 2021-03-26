@@ -63,6 +63,18 @@ footer {
     position: sticky;
 }
 
+#app.small-header {
+    grid-template-columns: 15% 85%;
+
+    header {
+        padding: 0;
+    }
+
+    .logo {
+        max-height: 7rem;
+    }
+}
+
 .logo {
     margin: 0 auto;
     width: 50%;
@@ -115,6 +127,11 @@ img {
     padding: 0;
     position: absolute;
     width: 1px;
+}
+
+.hidden {
+    display: none;
+    visibility: hidden;
 }
 
 footer {

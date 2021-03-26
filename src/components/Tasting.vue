@@ -31,14 +31,6 @@ if (!firebase.apps.length) {
 
 export default {
     name: 'Tasting',
-    beforeRouteLeave(to, from, next) {
-        console.log(to, from, next)
-        // Indicate to the SubComponent that we are leaving the route
-        // this.$refs.mySubComponent.prepareToExit()
-        // Make sure to always call the next function, otherwise the hook will never be resolved
-        // Ref: https://router.vuejs.org/en/advanced/navigation-guards.html
-        // next()
-    },
     data() {
         return {
             tastings: []
