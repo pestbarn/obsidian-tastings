@@ -1,9 +1,11 @@
 <template>
     <transition-group name="slide-fade" appear tag="div" ref="tastings-list">
-        <article class="tastings" v-for="tasting in tastings" :key="tasting.date" style="background: white;">
-            <router-link :to="{ name: 'tasting', params: { slug: tasting.date }}" @click.native="toTop">
-                {{ tasting.title && tasting.title }} {{ formatDate(tasting.date) }}
-            </router-link>
+        <article class="tasting" v-for="tasting in tastings" :key="tasting.date">
+            <h2>
+                <router-link :to="{ name: 'tasting', params: { slug: tasting.date }}" @click.native="toTop">
+                    {{ tasting.title && tasting.title }} {{ formatDate(tasting.date) }}
+                </router-link>
+            </h2>
         </article>
     </transition-group>
 </template>
@@ -40,7 +42,7 @@ export default {
 
             db.ref('/').once('value').then(snap => {
                 const array = []
-                console.dir(snap)
+                console.dir(snap.val())
 
                 snap.forEach(tasting => {
                     array.push(tasting.val())

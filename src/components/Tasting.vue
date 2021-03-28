@@ -23,6 +23,7 @@ import firebase from 'firebase/app'
 import 'firebase/database'
 import * as config from '/firebase.config'
 import '../helpers.js'
+import '../tasting.scss'
 const UntappdClient = require('node-untappd')
 
 if (!firebase.apps.length) {
@@ -79,30 +80,3 @@ export default {
     }
 }
 </script>
-
-<style scoped lang="scss">
-    .tasting {
-        margin: 1.5rem 2.5rem;
-        border: 1px solid #1b140d;
-        background: #bababa;
-        box-shadow: .75rem .75rem 0 0 #1b140d;
-        position: relative;
-
-        &::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            background: url('../assets/boxtexture.png') repeat;
-            opacity: .5;
-            z-index: 0;
-        }
-
-        > * {
-            position: relative;
-            z-index: 1;
-        }
-    }
-</style>
