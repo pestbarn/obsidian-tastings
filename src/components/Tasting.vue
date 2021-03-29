@@ -3,8 +3,17 @@
         <div class="tasting">
             <div v-if="!$route.params.id">
                 <main class="tasting-overview" v-for="tasting in tastings" :key="tasting.date">
+                    <h2>{{ tasting.title }}</h2>
+
+                    <ul v-for="(beer, i) in tasting.beers" :key="i">
+                        <li v-if="beerName[i]">
+                            <strong>{{ breweryName[i] }} - {{ beerName[i] }}</strong>
+                            <p>({{ beerStyle[i] }})</p>
+                        </li>
+                    </ul>
+
                     <router-link :to="{ name: 'tastingUnique', params: { slug: tasting.date, id: '1' }}">
-                        {{ tasting }}
+                        Begin
                     </router-link>
                 </main>
             </div>
@@ -34,7 +43,11 @@ export default {
     name: 'Tasting',
     data() {
         return {
-            tastings: []
+            tastings: [],
+            beers: [],
+            beerName: [],
+            breweryName: [],
+            beerStyle: []
         }
     },
     beforeMount() {
@@ -50,32 +63,42 @@ export default {
                 snap.forEach(tasting => {
                     const date = tasting.val().date
                     if (date !== parseInt(slug)) return
-                    console.dir(tasting.val())
 
                     this.tastings.push(tasting.val())
+                    this.beers = tasting.val().beers.filter(Boolean)
                 })
 
                 Promise.all(this.tastings).then(() => {
                     if (!loading.hidden) loading.hidden = true
                 })
+
+                this.loadUntappd()
             })
         },
 
-        loadRatings() {
+        loadUntappd() {
             const env = require('/.env.js')
             const untappd = new UntappdClient()
 
             untappd.setClientId(env.UNTAPPD_CLIENTID)
             untappd.setClientSecret(env.UNTAPPD_CLIENTSECRET)
 
-            const bID = this.tastingID
+            console.dir(this.beers)
 
-            if (!bID.length) return
+            this.beers.forEach(beer => {
+                untappd.beerInfo((err, obj) => {
+                    const res = obj.response.beer
+                    console.dir(res)
+                    /*
+                        beer_style
+                        brewery.brewery_name
+                    */
 
-            untappd.tastingInfo((err, obj) => {
-                const response = obj.response.tasting
-                console.dir(response)
-            }, { BID: bID })
+                    this.beerName.push(res.beer_name)
+                    this.breweryName.push(res.brewery.brewery_name)
+                    this.beerStyle.push(res.beer_style)
+                }, { BID: beer })
+            })
         }
     }
 }
