@@ -1,13 +1,22 @@
 <template>
-    <transition-group name="slide-fade" appear tag="div" ref="tastings-list">
-        <article class="tasting" v-for="tasting in tastings" :key="tasting.date">
+    <div>
+        <article class="tasting tasting-root" v-for="tasting in tastings" :key="tasting.date">
             <h2>
                 <router-link :to="{ name: 'tasting', params: { slug: tasting.date }}" @click.native="toTop">
-                    {{ tasting.title && tasting.title }} {{ formatDate(tasting.date) }}
+                    {{ tasting.title && tasting.title }}
                 </router-link>
+                <p>
+                    {{ tasting.beers.length - 1 }} beers
+                    <time>{{ formatDate(tasting.date) }}</time>
+                </p>
             </h2>
         </article>
-    </transition-group>
+        <article class="tasting tasting-root" ref="no-tastings" hidden>
+            <h2>
+                <p><a href="//mattias.pw/#message">Get in touch</a> if you want information about organizing a tasting!</p>
+            </h2>
+        </article>
+    </div>
 </template>
 
 <script>
@@ -42,13 +51,16 @@ export default {
 
             db.ref('/').once('value').then(snap => {
                 const array = []
-                console.dir(snap.val())
+                const today = new Date()
+                const dateString = today.getFullYear() + ('0' + (today.getMonth() + 1)).slice(-2) + ('0' + today.getDate()).slice(-2)
 
                 snap.forEach(tasting => {
-                    array.push(tasting.val())
+                    if (dateString < tasting.val().date) array.push(tasting.val())
+                    else return
                 })
 
-                array.forEach(val => this.tastings.push(val))
+                if (array.length) array.forEach(val => this.tastings.push(val))
+                else this.$findRefByName('no-tastings').hidden = false
 
                 if (!loading.hidden) loading.hidden = true
             })
