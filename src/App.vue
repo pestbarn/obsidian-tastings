@@ -41,14 +41,13 @@ export default {
     components: {
         ObsidianLogo
     },
+    beforeRouteUpdate(to, from, next) {
+        this.checkIfRoot()
+        next()
+    },
     data() {
         return {
             isNotRoot: false
-        }
-    },
-    watch: {
-        '$route' () {
-            this.checkIfRoot()
         }
     },
     mounted() {
